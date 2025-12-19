@@ -1,4 +1,11 @@
-# 🛡️ Havoc Network Analyzer (V.4.0)
+# 👺 HAVOC NETWORK ANALYZER (V.1.0)
+> **CYBER-TRAFFIC CLASSIFICATION SYSTEM USING K-NEAREST NEIGHBORS**
+
+[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.0+-black.svg?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+---
 
 **Havoc Network Analyzer** adalah aplikasi analisis lalu lintas jaringan berbasis web yang menggunakan algoritma **K-Nearest Neighbors (KNN)** untuk mengklasifikasikan tipe penggunaan data (Social Media, Browsing, atau YouTube).
 
@@ -38,15 +45,3 @@ Sistem ini dibangun menggunakan **Flask** dan mengimplementasikan logika KNN sec
 ├── youtube.csv         # Dataset untuk kategori YouTube
 └── README.md           # Dokumentasi proyek
 
-
-
-⚙️ Cara MenjalankanPersiapan DatasetPastikan file socmed.csv, browse.csv, dan youtube.csv berada di folder utama. Dataset harus memiliki kolom Length dan Info (dengan format port Source > Destination).Install DependensiPastikan Python sudah terinstal, lalu jalankan perintah:Bashpip install flask pandas
-Jalankan ServerBashpython app.py
-Akses AplikasiBuka browser dan buka alamat: http://127.0.0.1:5000📊 Logika PerhitunganSistem menggunakan rumus Euclidean Distance untuk mencari tetangga terdekat:$$d = \sqrt{\sum_{i=1}^{n} (q_i - p_i)^2}$$Serta Min-Max Normalization untuk menyamakan skala data:$$x' = \frac{x - \text{min}(x)}{\text{max}(x) - \text{min}(x)}$$📸 Tampilan Interface(Silakan upload screenshot aplikasi kamu di sini)Developed with ❤️ by [Nama Kamu]
----
-
-### Tips untuk GitHub:
-1. **Gambar Preview**: Pada bagian `📸 Tampilan Interface`, ganti link placeholder tersebut dengan link gambar asli hasil screenshot aplikasimu agar terlihat lebih keren.
-2. **Koleksi Data**: Pastikan file CSV kamu tidak terlalu besar agar saat di-push ke GitHub tidak terkena limit ukuran file.
-
-**Apakah ada bagian spesifik seperti cara kerja ekstraksi port yang ingin kamu jela
