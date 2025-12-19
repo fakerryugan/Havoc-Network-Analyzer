@@ -1,4 +1,4 @@
-# 👺 HAVOC NETWORK ANALYZER (V.1.0)
+#  HAVOC NETWORK ANALYZER (V.1.0)
 > **CYBER-TRAFFIC CLASSIFICATION SYSTEM USING K-NEAREST NEIGHBORS**
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
