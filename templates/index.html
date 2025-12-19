@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Havoc Network Analyzer</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@600;700&family=Rajdhani:wght@500;700&family=Noto+Sans+JP:wght@700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-red: #D92323; /* Merah Danjin */
+        --dark-bg: #121212;
+        --light-bg: #F4F4F4;
+        --ui-gray: #A0A0A0;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: 'Rajdhani', sans-serif;
+        background-color: #e8e8e8;
+        background-image: radial-gradient(#ccc 1px, transparent 1px);
+        background-size: 20px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    .interface-card {
+        background: var(--light-bg);
+        width: 100%;
+        max-width: 400px;
+        min-height: 750px;
+        position: relative;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        border: 1px solid #fff;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .bg-watermark {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%) rotate(90deg);
+        font-family: 'Teko', sans-serif;
+        font-size: 14rem;
+        color: rgba(0,0,0,0.03);
+        font-weight: 700;
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .header-section {
+        position: relative;
+        z-index: 2;
+        padding: 40px 20px 10px 20px;
+        text-align: center;
+    }
+
+    .top-tags {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    .tag {
+        font-size: 0.7rem;
+        border: 1px solid var(--dark-bg);
+        padding: 2px 8px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+    .tag.red { background: var(--primary-red); color: white; border-color: var(--primary-red); }
+
+    .main-title {
+        font-family: 'Teko', sans-serif;
+        font-size: 4rem;
+        line-height: 0.8;
+        color: var(--primary-red);
+        text-transform: uppercase;
+        margin: 0;
+        text-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+    }
+    
+    .sub-title {
+        font-size: 0.9rem;
+        letter-spacing: 4px;
+        color: var(--dark-bg);
+        margin-top: 5px;
+        font-weight: 700;
+    }
+
+    .char-frame {
+        width: 160px;
+        height: 160px;
+        margin: 20px auto;
+        position: relative;
+        z-index: 2;
+    }
+ 
+    .circle-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: 3px solid var(--light-bg);
+        outline: 2px dashed var(--primary-red);
+        background: #ddd;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 10px 20px rgba(217, 35, 35, 0.2);
+    }
+    .circle-img img { width: 100%; height: 100%; object-fit: cover; }
+
+    .deco-kanji {
+        position: absolute;
+        right: -30px;
+        top: 50%;
+        transform: translateY(-50%);
+        writing-mode: vertical-rl;
+        font-family: 'Noto Sans JP', sans-serif;
+        color: var(--dark-bg);
+        font-size: 1.2rem;
+        font-weight: 900;
+        opacity: 0.6;
+    }
+
+
+    .data-panel {
+        background: white;
+        margin: 0 20px;
+        padding: 25px;
+        border-radius: 4px; /* Sudut sedikit tumpul */
+        border-left: 4px solid var(--primary-red);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        position: relative;
+        z-index: 2;
+    }
+
+    .input-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 5px;
+    }
+
+    label {
+        font-weight: 700;
+        color: #555;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+    }
+ 
+    label::before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: var(--primary-red);
+        margin-right: 8px;
+        transform: rotate(45deg);
+    }
+
+    input {
+        text-align: right;
+        border: none;
+        font-family: 'Rajdhani', sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--dark-bg);
+        width: 120px;
+        background: transparent;
+    }
+    input:focus { outline: none; color: var(--primary-red); }
+    input::placeholder { color: #ddd; font-weight: 500; }
+
+
+    .btn-submit {
+        width: 100%;
+        background: var(--dark-bg);
+        color: white;
+        border: none;
+        padding: 15px;
+        font-family: 'Teko', sans-serif;
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+        margin-top: 10px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: 0.3s;
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 95% 100%, 0 100%);
+    }
+
+    .btn-submit:hover {
+        background: var(--primary-red);
+        padding-left: 25px; 
+    }
+    .btn-submit::after {
+        content: '>>';
+        position: absolute;
+        right: 20px;
+        opacity: 0.5;
+    }
+    .result-overlay {
+        margin-top: 20px;
+        text-align: center;
+        border: 1px dashed var(--primary-red);
+        background: rgba(217, 35, 35, 0.05);
+        padding: 15px;
+        animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both;
+    }
+
+    .result-label {
+        font-size: 0.8rem;
+        color: var(--ui-gray);
+        letter-spacing: 2px;
+        margin-bottom: 5px;
+    }
+
+    .result-value {
+        font-family: 'Teko', sans-serif;
+        font-size: 2.5rem;
+        color: var(--primary-red);
+        line-height: 1;
+        text-transform: uppercase;
+    }
+
+
+    .footer-bar {
+        margin-top: auto;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid #ddd;
+        background: #fff;
+    }
+    .barcode {
+        font-family: 'Libre Barcode 39', cursive; /* Fallback visual sederhana */
+        height: 10px;
+        width: 100px;
+        background: repeating-linear-gradient(to right, #000 0, #000 2px, #fff 2px, #fff 4px);
+    }
+    .sys-ver { font-size: 0.7rem; color: #aaa; font-weight: 700; }
+
+    @keyframes glitch-anim {
+        0% { transform: translate(0); }
+        20% { transform: translate(-2px, 2px); }
+        40% { transform: translate(-2px, -2px); }
+        60% { transform: translate(2px, 2px); }
+        80% { transform: translate(2px, -2px); }
+        100% { transform: translate(0); }
+    }
+</style>
+</head>
+<body>
+
+    <div class="interface-card">
+        <div class="bg-watermark">ANALYZER</div>
+
+        <div class="header-section">
+            <div class="top-tags">
+                <div class="tag">System</div>
+                <div class="tag red">Havoc</div>
+                <div class="tag">Kuro</div>
+            </div>
+            
+            <h1 class="main-title">TRAFFIC<br>SCANNER</h1>
+            <div class="sub-title">KNN PREDICTION MODULE // V.4.0</div>
+        </div>
+
+        <div class="char-frame">
+            <div class="circle-img">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Target">
+            </div>
+            <div class="deco-kanji">共鳴</div> </div>
+
+        <form method="POST" class="data-panel">
+            <div style="font-size:0.7rem; color:#aaa; margin-bottom:15px; letter-spacing:1px;">
+                // ENTER SIGNAL PARAMETERS
+            </div>
+
+            <div class="input-group">
+                <label for="length">PACKET_LEN</label>
+                <input type="number" id="length" name="length" placeholder="0000" required value="{{ input.Length if input else '' }}">
+            </div>
+
+            <div class="input-group">
+                <label for="src_port">SRC_NODE_ID</label>
+                <input type="number" id="src_port" name="src_port" placeholder="PORT" required value="{{ input.Src if input else '' }}">
+            </div>
+
+            <div class="input-group">
+                <label for="dst_port">DST_NODE_ID</label>
+                <input type="number" id="dst_port" name="dst_port" placeholder="PORT" required value="{{ input.Dst if input else '' }}">
+            </div>
+
+            <button type="submit" class="btn-submit">INITIATE SCAN</button>
+
+            {% if prediction %}
+            <div class="result-overlay">
+                <div class="result-label">TARGET CLASSIFICATION</div>
+                <div class="result-value">{{ prediction }}</div>
+            </div>
+            {% endif %}
+        </form>
+
+        <div class="footer-bar">
+            <div class="sys-ver">SYS_ID: 8821-X</div>
+            <div class="barcode"></div>
+        </div>
+    </div>
+
+</body>
+</html>
