@@ -1,145 +1,49 @@
-# 👺 HAVOC NETWORK ANALYZER (V.4.0)
-> **CYBER-TRAFFIC CLASSIFICATION SYSTEM USING K-NEAREST NEIGHBORS**
+# 🛡️ Havoc Network Analyzer (V.4.0)
 
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Flask](https://img.shields.io/badge/Flask-2.0+-black.svg?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+**Havoc Network Analyzer** adalah aplikasi analisis lalu lintas jaringan berbasis web yang menggunakan algoritma **K-Nearest Neighbors (KNN)** untuk mengklasifikasikan tipe penggunaan data (Social Media, Browsing, atau YouTube).
 
----
-
-## ⚡ Overview
-**Havoc Network Analyzer** adalah sistem klasifikasi trafik jaringan berbasis web yang mampu mengenali jenis aktivitas data (Social Media, Browsing, YouTube) secara *real-time*. Proyek ini mendemonstrasikan bagaimana algoritma **Machine Learning** dapat diimplementasikan secara murni (*from scratch*) tanpa bantuan library seperti Scikit-Learn.
+Sistem ini dibangun menggunakan **Flask** dan mengimplementasikan logika KNN secara manual (from scratch) tanpa bergantung pada library machine learning eksternal seperti Scikit-Learn untuk proses prediksinya.
 
 ---
 
-## 🎨 System Interface Design
-Antarmuka didesain dengan estetika **Cyberpunk/High-Tech Interface** (Danjin Red Theme) untuk memberikan pengalaman visual "Hacker/Analyst".
+## 🚀 Fitur Utama
 
-| Main Dashboard | Logic Process |
-| :---: | :---: |
-| ![Preview](https://via.placeholder.com/250x450.png?text=Cyberpunk+UI+Design) | ![Process](https://via.placeholder.com/250x450.png?text=Result+Overlay+Animation) |
+-   **Manual KNN Implementation**: Menggunakan perhitungan *Euclidean Distance* murni untuk klasifikasi data.
+-   **Auto Data Normalization**: Melakukan *Min-Max Scaling* otomatis pada fitur `Length`, `SrcPort`, dan `DstPort`.
+-   **Cyberpunk Interface**: UI futuristik yang responsif dengan tema visual "Havoc System".
+-   **Real-time Processing**: Menampilkan hasil prediksi beserta durasi waktu pemrosesan data.
 
 ---
 
-## 🧠 Brain of Havoc: Teknikal & Algoritma
+## 🛠️ Tech Stack
 
-Sistem ini bekerja dengan memproses paket data melalui 3 tahap utama:
+-   **Backend**: Python, Flask
+-   **Data Processing**: Pandas
+-   **Frontend**: HTML5, CSS3 (Google Fonts: Teko, Rajdhani)
+-   **Math**: Euclidean Distance & Min-Max Normalization
 
-### 1. Feature Extraction (Regex-like Parsing)
-Aplikasi membedah kolom `Info` pada dataset Wireshark untuk mengambil port sumber dan tujuan secara otomatis:
-```python
-# Contoh alur ekstraksi:
-# "443 > 51234 [ACK]" -> SrcPort: 443, DstPort: 51234
-2. Min-Max Normalization
-Agar port (0-65535) dan panjang paket tidak timpang, data diskalakan ke rentang 0 hingga 1:
+---
 
-x 
-scaled
-​
- = 
-x 
-max
-​
- −x 
-min
-​
- 
-x−x 
-min
-​
- 
-​
- 
-3. K-Nearest Neighbors (KNN) logic
-Sistem menghitung jarak "kemiripan" antara input user dengan ribuan data di database menggunakan Euclidean Distance:
+## 📂 Struktur Repositori
 
-d(p,q)= 
-(p 
-1
-​
- −q 
-1
-​
- ) 
-2
- +(p 
-2
-​
- −q 
-2
-​
- ) 
-2
- +(p 
-n
-​
- −q 
-n
-​
- ) 
-2
- 
+```text
+.
+├── app.py              # Logika Utama & Algoritma KNN
+├── templates/
+│   └── index.html      # Tampilan UI (Cyberpunk Theme)
+├── static/
+│   └── logo.png        # Logo aplikasi
+├── socmed.csv          # Dataset untuk kategori Social Media
+├── browse.csv          # Dataset untuk kategori Browsing
+├── youtube.csv         # Dataset untuk kategori YouTube
+└── README.md           # Dokumentasi proyek
+⚙️ Cara MenjalankanPersiapan DatasetPastikan file socmed.csv, browse.csv, dan youtube.csv berada di folder utama. Dataset harus memiliki kolom Length dan Info (dengan format port Source > Destination).Install DependensiPastikan Python sudah terinstal, lalu jalankan perintah:Bashpip install flask pandas
+Jalankan ServerBashpython app.py
+Akses AplikasiBuka browser dan buka alamat: http://127.0.0.1:5000📊 Logika PerhitunganSistem menggunakan rumus Euclidean Distance untuk mencari tetangga terdekat:$$d = \sqrt{\sum_{i=1}^{n} (q_i - p_i)^2}$$Serta Min-Max Normalization untuk menyamakan skala data:$$x' = \frac{x - \text{min}(x)}{\text{max}(x) - \text{min}(x)}$$📸 Tampilan Interface(Silakan upload screenshot aplikasi kamu di sini)Developed with ❤️ by [Nama Kamu]
+---
 
-​
- 
-🛠️ Tech Architecture
-Komponen	Teknologi	Deskripsi
-Engine	Python 3	Inti pemrosesan logika KNN.
-Web Server	Flask	Menangani routing dan request HTTP.
-Data Handler	Pandas	Manajemen dataset CSV skala besar.
-UI/UX	CSS Grid & Flex	Desain futuristik dengan font Rajdhani & Teko.
+### Tips untuk GitHub:
+1. **Gambar Preview**: Pada bagian `📸 Tampilan Interface`, ganti link placeholder tersebut dengan link gambar asli hasil screenshot aplikasimu agar terlihat lebih keren.
+2. **Koleksi Data**: Pastikan file CSV kamu tidak terlalu besar agar saat di-push ke GitHub tidak terkena limit ukuran file.
 
-Ekspor ke Spreadsheet
-
-📂 Folder Structure
-Bash
-
-📁 havoc-network-analyzer
-├── 📄 app.py              # The Machine Learning Engine
-├── 📁 templates           # UI Components
-│   └── 📄 index.html      # Cyberpunk Dashboard
-├── 📁 static              # Assets
-│   └── 🖼️ logo.png        # Branding
-├── 📊 browse.csv          # Training Data: Browsing
-├── 📊 socmed.csv          # Training Data: Social Media
-└── 📊 youtube.csv         # Training Data: Video Streaming
-🚀 Installation & Quick Start
-Clone the project
-
-Bash
-
-git clone [https://github.com/username/havoc-analyzer.git](https://github.com/username/havoc-analyzer.git)
-Setup environment
-
-Bash
-
-pip install flask pandas
-Fire up the engine
-
-Bash
-
-python app.py
-Access the console Buka http://localhost:5000 di browser favoritmu.
-
-📌 Development Roadmap
-[x] KNN Manual Implementation
-
-[x] Normalization Engine
-
-[x] Cyberpunk UI Design
-
-[ ] Integration with Live Wireshark Capture (Next Update)
-
-[ ] Support for Multi-label classification
-
-Developed by [Nama Kamu] Building the future of network analysis, one packet at a time.
-
-
-### Apa yang saya tambahkan:
-1.  **Badges**: Menambahkan label visual di atas agar terlihat seperti repositori profesional.
-2.  **Tabel Arsitektur**: Memudahkan orang memahami teknologi apa saja yang kamu gunakan.
-3.  **Matematika LaTeX**: Menjelaskan rumus Normalisasi dan Euclidean agar kamu terlihat ahli dalam data science.
-4.  **Roadmap**: Memberi kesan bahwa proyek ini akan terus berkembang.
-5.  **Visual Structure**: Menggunakan ikon folder agar struktur file mudah dibaca.
-
-**Apakah ada bagian dari algoritmanya (seperti nilai K=5) yang ingin kamu tonjolkan lebih berani lagi desainnya?**
+**Apakah ada bagian spesifik seperti cara kerja ekstraksi port yang ingin kamu jela
