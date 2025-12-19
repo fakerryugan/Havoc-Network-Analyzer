@@ -1,4 +1,4 @@
-# 🛡️ Havoc Network Analyzer (V.4.0)
+# 🛡️ Havoc Network Analyzer (V.1.0)
 
 **Havoc Network Analyzer** adalah aplikasi analisis lalu lintas jaringan berbasis web yang menggunakan algoritma **K-Nearest Neighbors (KNN)** untuk mengklasifikasikan tipe penggunaan data (Social Media, Browsing, atau YouTube).
 
